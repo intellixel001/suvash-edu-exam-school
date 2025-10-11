@@ -1,28 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { FaSun, FaMoon, FaBookOpen, FaGraduationCap } from "react-icons/fa";
+import { FaBookOpen, FaGraduationCap } from "react-icons/fa";
 
 export default function Hero() {
-  const [darkMode, setDarkMode] = useState(false);
-
-  // Toggle dark mode
-  useEffect(() => {
-    if (darkMode) document.documentElement.classList.add("dark");
-    else document.documentElement.classList.remove("dark");
-  }, [darkMode]);
-
   return (
-    <section className="relative min-h-[90vh] flex bg-gray-100 dark:bg-gray-900 transition-colors duration-500 overflow-hidden">
-      {/* Dark/Light Toggle */}
-      <button
-        onClick={() => setDarkMode(!darkMode)}
-        className="absolute top-5 right-5 p-2 rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition shadow-md z-50"
-      >
-        {darkMode ? <FaSun className="text-yellow-400" /> : <FaMoon />}
-      </button>
-
-      <div className="container mx-auto px-10 flex flex-col-reverse lg:flex-row items-center justify-between">
+    <section className="relative lg:min-h-[90vh] lg:pt-5 pt-[100px] flex bg-gray-100 dark:bg-gray-900 transition-colors duration-500 overflow-hidden">
+      <div className="container mx-auto px-10 flex flex-col-reverse lg:flex-row lg:items-center lg:justify-between">
         {/* Text Content */}
         <div className="w-full lg:w-1/2 text-center lg:text-left space-y-6">
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-gray-900 dark:text-white leading-tight">

@@ -71,7 +71,7 @@ export default function Header() {
         </nav>
 
         {/* Right Actions */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="flex items-center justify-end gap-4">
           {/* Dark Mode Toggle */}
           <button
             onClick={() => setDarkMode(!darkMode)}
@@ -87,13 +87,13 @@ export default function Header() {
           {/* Auth Buttons */}
           <Link
             href="/login"
-            className="px-4 py-2 rounded-full border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white transition shadow-sm"
+            className="px-4 py-2 hidden lg:block rounded-full border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white transition shadow-sm"
           >
             Login
           </Link>
           <Link
             href="/signup"
-            className="px-4 py-2 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition shadow-sm"
+            className="px-4 py-2 hidden lg:block rounded-full bg-blue-600 text-white hover:bg-blue-700 transition shadow-sm"
           >
             Sign Up
           </Link>
@@ -157,17 +157,6 @@ export default function Header() {
           </Link>
 
           <div className="flex items-center gap-3 mt-4">
-            {/* Dark Mode Toggle */}
-            <button
-              onClick={() => setDarkMode(!darkMode)}
-              className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition shadow-sm"
-            >
-              {darkMode ? (
-                <FaSun className="text-yellow-400" />
-              ) : (
-                <FaMoon className="text-yellow-950" />
-              )}
-            </button>
             {/* Auth Buttons */}
             <Link
               href="/login"
