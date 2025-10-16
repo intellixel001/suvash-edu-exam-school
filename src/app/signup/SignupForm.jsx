@@ -1,22 +1,63 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { FaSun, FaMoon, FaUser, FaEnvelope, FaLock } from "react-icons/fa";
+import apiClient from "@/api/apiClient";
+import React, { useState } from "react";
+import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 
 export default function SignupForm() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
-  const handleSubmit = (e) => {
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+    setErrorMsg("");
+    setSuccessMsg("");
+
+    if (form.password !== form.confirmPassword) {
+      setErrorMsg("Passwords do not match.");
       return;
     }
-    // Handle signup logic here
-    alert(`Name: ${name}\nEmail: ${email}\nPassword: ${password}`);
+
+    try {
+      setLoading(true);
+
+      // 🔹 API call to backend signup endpoint
+      const response = await apiClient.post("/student/register", {
+        fullName: form.name.trim(),
+        email: form.email.trim(),
+        from: "examapp",
+        password: form.password.trim(),
+      });
+
+      setSuccessMsg("Signup successful! Redirecting...");
+      setForm({ name: "", email: "", password: "", confirmPassword: "" });
+
+      // Optional: redirect after success
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 2000);
+    } catch (err) {
+      // 🔹 Detailed API error handling
+      const message =
+        err.response?.data?.message ||
+        err.response?.data?.error ||
+        "Something went wrong. Please try again.";
+      setErrorMsg(message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -32,53 +73,91 @@ export default function SignupForm() {
         <div className="relative">
           <FaUser className="absolute left-3 top-3 text-gray-400 dark:text-gray-300" />
           <input
+            name="name"
             type="text"
             placeholder="Full Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={form.name}
+            onChange={handleChange}
             required
-            className="w-full px-10 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            className="w-full px-10 py-3 rounded-xl border border-gray-300 dark:border-gray-600 
+                       bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 
+                       placeholder-gray-400 dark:placeholder-gray-300 
+                       focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
           />
         </div>
 
         <div className="relative">
           <FaEnvelope className="absolute left-3 top-3 text-gray-400 dark:text-gray-300" />
           <input
+            name="email"
             type="email"
             placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={form.email}
+            onChange={handleChange}
             required
-            className="w-full px-10 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            className="w-full px-10 py-3 rounded-xl border border-gray-300 dark:border-gray-600 
+                       bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 
+                       placeholder-gray-400 dark:placeholder-gray-300 
+                       focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
           />
         </div>
 
         <div className="relative">
           <FaLock className="absolute left-3 top-3 text-gray-400 dark:text-gray-300" />
           <input
+            name="password"
             type="password"
             placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={form.password}
+            onChange={handleChange}
             required
-            className="w-full px-10 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            className="w-full px-10 py-3 rounded-xl border border-gray-300 dark:border-gray-600 
+                       bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 
+                       placeholder-gray-400 dark:placeholder-gray-300 
+                       focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
           />
         </div>
 
         <div className="relative">
           <FaLock className="absolute left-3 top-3 text-gray-400 dark:text-gray-300" />
           <input
+            name="confirmPassword"
             type="password"
             placeholder="Confirm Password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            value={form.confirmPassword}
+            onChange={handleChange}
             required
-            className="w-full px-10 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            className="w-full px-10 py-3 rounded-xl border border-gray-300 dark:border-gray-600 
+                       bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 
+                       placeholder-gray-400 dark:placeholder-gray-300 
+                       focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
           />
         </div>
 
-        <button className="w-full py-3 rounded-xl bg-gradient-to-r from-green-500 to-teal-500 text-white font-semibold text-lg hover:opacity-90 transition shadow-lg">
-          Sign Up
+        {errorMsg && (
+          <p className="text-red-500 bg-red-100 dark:bg-red-900/40 text-sm p-2 rounded text-center">
+            {errorMsg}
+          </p>
+        )}
+
+        {successMsg && (
+          <p className="text-green-600 bg-green-100 dark:bg-green-900/40 text-sm p-2 rounded text-center">
+            {successMsg}
+          </p>
+        )}
+
+        <button
+          type="submit"
+          disabled={loading}
+          className={`w-full py-3 rounded-xl bg-gradient-to-r from-green-500 to-teal-500 text-white 
+                      font-semibold text-lg shadow-lg transition-all duration-300 
+                      ${
+                        loading
+                          ? "opacity-70 cursor-not-allowed"
+                          : "hover:opacity-90"
+                      }`}
+        >
+          {loading ? "Signing up..." : "Sign Up"}
         </button>
       </form>
 

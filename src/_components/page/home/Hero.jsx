@@ -1,8 +1,19 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { FaBookOpen, FaGraduationCap } from "react-icons/fa";
 
 export default function Hero() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      router.push("/dashboard", { scroll: true });
+    }
+  }, [router]);
+
   return (
     <section className="relative lg:min-h-[90vh] lg:pt-5 pt-[100px] flex bg-gray-100 dark:bg-gray-900 transition-colors duration-500 overflow-hidden">
       <div className="container mx-auto px-10 flex flex-col-reverse lg:flex-row lg:items-center lg:justify-between">
