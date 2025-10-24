@@ -7,6 +7,7 @@ import React from "react";
 export const examSections = [
   {
     id: 1,
+    name: "৫০তম বিসিএস প্রস্তুতি",
     title: "আপনি যে পরীক্ষায় অংশগ্রহণ নিতে চান",
     items: [
       {
@@ -59,6 +60,7 @@ export const examSections = [
   },
   {
     id: 2,
+    name: "নতুনদের বিসিএস প্রস্তুতি",
     title: "আপনি যে পরীক্ষায় অংশগ্রহণ নিতে চানঃ",
     items: [
       {
@@ -75,6 +77,7 @@ export const examSections = [
   },
   {
     id: 3,
+    name: "সাবজেক্ট ওয়্যার",
     title: "আপনি যে পরীক্ষায় অংশগ্রহণ নিতে চানঃ",
     items: [
       {
@@ -161,6 +164,7 @@ export const examSections = [
   },
   {
     id: 4,
+    name: "জব সমাধান",
     title: "আপনি যে পরীক্ষায় অংশগ্রহণ নিতে চানঃ",
     items: [
       {
@@ -213,27 +217,28 @@ export const examSections = [
   },
   {
     id: 5,
+    name: "ব্যাংক নিয়োগ প্রস্তুতি",
     title: "আপনি যে পরীক্ষায় অংশগ্রহণ নিতে চানঃ",
     items: [
       {
-        id: 10,
+        id: 1,
         title: "ব্যাংক নিয়োগ প্রস্তুতি – লং কোর্স",
         link: "/dashboard/exam/bank-prep-long-course",
         live: true,
       },
       {
-        id: 11,
+        id: 2,
         title: "ব্যাংক নিয়োগ বিষয়ভিত্তিক প্রস্তুতি",
         link: "/dashboard/exam/bank-prep-subject-wise",
         live: true,
       },
       {
-        id: 12,
+        id: 3,
         title: "ব্যাংক ডেইলি কুইজ",
         link: "/dashboard/exam/bank-prep-daily-quiz",
       },
       {
-        id: 13,
+        id: 4,
         title: "ব্যাংক মডেল টেস্ট [সাপ্তাহিক]",
         link: "/dashboard/exam/bank-prep-weekly-model-test",
       },
@@ -241,6 +246,7 @@ export const examSections = [
   },
   {
     id: 6,
+    name: "শিক্ষক নিয়োগ ও নিবন্ধন",
     title: "আপনি যে পরীক্ষায় অংশগ্রহণ নিতে চানঃ",
     items: [
       {
@@ -298,6 +304,7 @@ export const examSections = [
   },
   {
     id: 7,
+    name: "৯ম-২০তম গ্রেডের প্রস্তুতি",
     title: "আপনি যে পরীক্ষায় অংশগ্রহণ নিতে চানঃ",
     items: [
       {
@@ -360,6 +367,7 @@ export const examSections = [
   },
   {
     id: 8,
+    name: "বার কাউন্সিল ও বিজনেস",
     title: "আপনি যে পরীক্ষায় অংশগ্রহণ নিতে চানঃ",
     items: [
       {
@@ -386,6 +394,7 @@ export const examSections = [
   },
   {
     id: 9,
+    name: "স্পেশাল বিসিএস (শিক্ষা)",
     title: "আপনি যে পরীক্ষায় অংশগ্রহণ নিতে চানঃ",
     items: [
       {
@@ -547,6 +556,7 @@ export const examSections = [
   },
   {
     id: 10,
+    name: "স্পেশাল বিসিএস (স্বাস্থ্য)",
     title: "আপনি যে পরীক্ষায় অংশগ্রহণ নিতে চানঃ",
     items: [
       {
