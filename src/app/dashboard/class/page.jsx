@@ -24,7 +24,7 @@ export default function Page() {
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
         {cardData.map((item, i) => (
           <BigInfoCard
-            onClick={() => router.push("/dashboard/subjects/" + (i + 1))}
+            onClick={() => router.push("/dashboard/class/" + (i + 1))}
             key={i}
             title={item.title}
             subtitle=""

@@ -24,8 +24,6 @@ export default function LoginForm() {
         from: "examapp",
       });
 
-      console.log(response);
-
       const loginData = response.data;
 
       if (loginData?.user) {

@@ -24,7 +24,6 @@ export default function EditProfilePage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Updated profile:", form);
     router.push("/profile");
   };
 

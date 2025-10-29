@@ -23,8 +23,6 @@ export default function Header() {
   const accessToken = localStorage.getItem("accessToken");
   const router = useRouter();
 
-  console.log({ accessToken });
-
   // Toggle Tailwind dark mode
   useEffect(() => {
     if (darkMode) {

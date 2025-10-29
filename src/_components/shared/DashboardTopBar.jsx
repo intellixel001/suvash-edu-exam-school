@@ -19,8 +19,6 @@ export default function DashboardTopBar({ set_slider_toggle_bar }) {
     }
   }, [darkMode]);
 
-  console.log({ CurrentPath });
-
   return (
     <header className="bg-white dark:bg-gray-900 dark:text-white shadow-md w-full z-50 transition-all duration-300">
       <div className="container mx-auto px-6 py-4 flex items-center justify-between">

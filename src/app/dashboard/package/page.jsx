@@ -10,10 +10,6 @@ export default function PaymentInfoPage() {
   const params = useParams();
   const idParam = params.subject;
 
-  useEffect(() => {
-    console.log("Selected Subject:", idParam);
-  }, [idParam]);
-
   return (
     <div className="min-h-screen flex flex-col justify-between transition-colors">
       <div className="w-full py-10 px-4 mx-auto">

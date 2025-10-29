@@ -12,7 +12,7 @@ export default function RootLayout({ children }) {
         set_slider_toggle_bar={set_slider_toggle_bar}
       />
 
-      <div className="bg-[#e1dfd6] container mx-auto dark:bg-slate-950">
+      <div className="bg-[#e1dfd6] container mx-auto px-4 dark:bg-slate-950">
         <DashboardTopBar set_slider_toggle_bar={set_slider_toggle_bar} />
         {children}
       </div>
