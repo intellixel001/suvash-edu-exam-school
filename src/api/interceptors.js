@@ -1,3 +1,4 @@
+"use client";
 import handleError from "./handleError";
 
 export const setupInterceptors = (axiosInstance) => {
