@@ -16,7 +16,9 @@ export default function page() {
         <div className="p-6 min-h-screen transition-colors duration-300">
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             <BigInfoCard
-              onClick={() => router.push("/dashboard/class", { scroll: true })}
+              onClick={() =>
+                router.push("/dashboard/position", { scroll: true })
+              }
               image="https://elasticbeanstalk-ap-southeast-1-051040323559.s3.amazonaws.com/livemcq-files/public/img/exam_icon.png"
               title="Exam Section"
               subtitle="Live Exam, Archive, Routine, Syllabus, Merit list etc."

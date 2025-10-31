@@ -15,6 +15,10 @@ export default function Page() {
   const classParam = searchParams?.class || "";
   const subject = searchParams?.subject || "";
 
+  const idParam2 = searchParams.position;
+
+  console.log({ idParam2 });
+
   const [exam, setExam] = useState(null);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
@@ -25,7 +29,7 @@ export default function Page() {
         setLoading(true);
         setErrorMsg("");
         const response = await apiClient.get(
-          `/student/exam/get/${classParam}/${subject}`
+          `/student/exam/get/${idParam2}/${classParam}/${subject}`
         );
         setExam(response.data || null);
       } catch (err) {

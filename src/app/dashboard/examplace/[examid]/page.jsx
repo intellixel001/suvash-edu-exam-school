@@ -4,10 +4,10 @@ import React, { useEffect, useState } from "react";
 import apiClient from "@/api/apiClient";
 import QuestionCard from "../QuestionCard";
 import { useSocket } from "@/hooks/useSocket";
+import { FaSyncAlt } from "react-icons/fa";
 
 export default function ExamPage() {
   const { examid } = useParams();
-
   const [exam, setExam] = useState(null);
   const [questions, setQuestions] = useState([]);
   const [topics, setTopics] = useState([]);
@@ -18,11 +18,14 @@ export default function ExamPage() {
   const [timeLeft, setTimeLeft] = useState(0);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [examSheet, setExamSheet] = useState(null);
   const { socket, connected } = useSocket(
     process.env.NEXT_PUBLIC_API_BASE_URL_SOCKET
   );
 
+  // ---------------------------
   // Fetch exam + questions + topics
+  // ---------------------------
   useEffect(() => {
     const fetchExam = async () => {
       try {
@@ -34,11 +37,35 @@ export default function ExamPage() {
         );
         const data = res || {};
 
-        setExam(data.data || null);
-        setQuestions(data.questions || []);
-        setTopics(data.uniqueTopics || []);
-        setSelectedTopic(data.uniqueTopics?.[0] || "");
-        setTimeLeft(data.data?.duration ? data.data.duration * 60 : 0);
+        console.log(data);
+        // ✅ Check if already submitted / time over
+        if (!data.data.exam) {
+          setErrorMsg(data.message || "Cannot start exam.");
+          return;
+        }
+
+        console.log(data.data);
+
+        setExam(data.data.exam);
+        setExamSheet(data.data.answerSheet || []);
+        setQuestions(data.data.questions || []);
+        setTopics(data.data.uniqueTopics || []);
+        setSelectedTopic(data.data.uniqueTopics?.[0] || "");
+
+        // Calculate remaining time from start/end time
+        const now = new Date();
+        const endTime = new Date(data.data.endTime);
+        const remainingSeconds = Math.max(
+          Math.floor((endTime - now) / 1000),
+          0
+        );
+
+        if (remainingSeconds === 0) {
+          setSubmitted(true);
+          setErrorMsg("⏰ Your exam time has already expired or submitted.");
+        }
+
+        setTimeLeft(remainingSeconds);
       } catch (err) {
         const message =
           err?.response?.data?.message ||
@@ -49,12 +76,26 @@ export default function ExamPage() {
         setLoading(false);
       }
     };
+
     if (examid) fetchExam();
   }, [examid]);
 
+  useEffect(() => {
+    if (examSheet) {
+      const answerMap = {};
+      for (const ans of examSheet?.answers) {
+        answerMap[ans.questionId] = ans.answerIndex;
+      }
+      setAnswers(answerMap);
+    }
+  }, [examSheet]);
+
+  // ---------------------------
   // Countdown Timer
+  // ---------------------------
   useEffect(() => {
     if (!timeLeft || submitted) return;
+
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
@@ -65,6 +106,7 @@ export default function ExamPage() {
         return prev - 1;
       });
     }, 1000);
+
     return () => clearInterval(timer);
   }, [timeLeft, submitted]);
 
@@ -94,17 +136,21 @@ export default function ExamPage() {
         examId: examid,
         answers: Object.entries(answers).map(([qid, ansIndex]) => ({
           questionId: qid,
-          answerIndex: ansIndex, // ✅ index+1 sent
+          answerIndex: ansIndex,
         })),
       };
 
-      const res = await apiClient.post("/student/exam/submit", payload);
+      const res = await apiClient.put("/student/exam/submit", {
+        examid,
+        answerSheetId: examSheet?._id,
+      });
 
-      if (res.data.success) {
+      if (res.data) {
         setSubmitted(true);
         alert("✅ Exam submitted successfully!");
+        window.history.back();
       } else {
-        alert("⚠️ Submission failed. Please try again.");
+        alert("⚠️ Submission failed. " + (res.data.message || ""));
       }
     } catch (err) {
       console.error(err);
@@ -119,6 +165,9 @@ export default function ExamPage() {
       ? questions.filter((q) => q.topic === selectedTopic)
       : questions;
 
+  // ---------------------------
+  // Render loading / error / reconnect states
+  // ---------------------------
   if (loading)
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -128,7 +177,7 @@ export default function ExamPage() {
 
   if (errorMsg)
     return (
-      <div className="flex items-center justify-center min-h-screen text-red-500">
+      <div className="flex items-center justify-center min-h-screen text-red-500 text-center px-4">
         {errorMsg}
       </div>
     );
@@ -140,6 +189,24 @@ export default function ExamPage() {
       </div>
     );
 
+  if (!connected)
+    return (
+      <div className="fixed inset-0 flex flex-col items-center justify-center bg-gray-100/80 backdrop-blur-sm z-50">
+        <div className="flex flex-col items-center p-6 bg-white rounded-2xl shadow-lg border border-gray-200">
+          <FaSyncAlt className="text-blue-500 text-4xl animate-spin mb-3" />
+          <h2 className="text-lg font-semibold text-gray-800">
+            Reconnecting to exam server...
+          </h2>
+          <p className="text-sm text-gray-500 mt-1">
+            Please wait, trying to restore connection.
+          </p>
+        </div>
+      </div>
+    );
+
+  // ---------------------------
+  // Render main exam page
+  // ---------------------------
   return (
     <div className="min-h-screen p-6 text-gray-800 dark:text-gray-100 transition-colors duration-300">
       {/* Header + Timer */}
@@ -147,7 +214,7 @@ export default function ExamPage() {
         <div className="flex items-center gap-6">
           <button
             onClick={handleSubmit}
-            disabled={submitting || submitted}
+            disabled={submitting || submitted || timeLeft === 0}
             className={`px-6 py-2 rounded-lg transition text-white ${
               submitted
                 ? "bg-green-600"
@@ -198,6 +265,14 @@ export default function ExamPage() {
                 if (answers[q._id] !== undefined) {
                   return;
                 } else {
+                  socket.emit("giveanswer", {
+                    examid,
+                    answerSheetId: examSheet?._id,
+                    answer: {
+                      questionId: q._id,
+                      answerIndex: ans,
+                    },
+                  });
                   handleAnswerChange(q._id, ans);
                 }
               }}
