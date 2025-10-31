@@ -20,7 +20,12 @@ import { useRouter } from "next/navigation";
 export default function Header() {
   const [darkMode, setDarkMode] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const accessToken = localStorage.getItem("accessToken");
+
+  let accessToken;
+  if (typeof window !== "undefined") {
+    accessToken = localStorage.getItem("accessToken");
+  }
+
   const router = useRouter();
 
   // Toggle Tailwind dark mode
