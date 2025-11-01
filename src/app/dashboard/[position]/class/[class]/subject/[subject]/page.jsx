@@ -17,8 +17,6 @@ export default function Page() {
 
   const idParam2 = searchParams.position;
 
-  console.log({ idParam2 });
-
   const [exam, setExam] = useState(null);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
@@ -95,7 +93,6 @@ export default function Page() {
     router.push(`${currentPathName}${link}`, { scroll: true });
   };
 
-  console.log(exam);
   // 👉 Calculate whether exam is active within 24h window
   const canEnterExam = (() => {
     if (!exam?.startDate) return false;
@@ -116,11 +113,16 @@ export default function Page() {
     <div className="min-h-screen">
       <div className="w-full py-6">
         {/* ✅ Top Info Text */}
-        {exam?.startDate && (
+        {new Date(exam?.startDate).getTime() + +24 * 60 * 60 * 1000 >
+        Date.now() ? (
           <h2 className="text-center text-base font-medium text-gray-800 dark:text-gray-200 border border-gray-300 p-3 mb-6 rounded-md bg-gray-50 dark:bg-gray-700">
             {canEnterExam
               ? "আপনি এখন পরীক্ষায় অংশগ্রহণ করতে পারবেন (পরবর্তী ২৪ ঘন্টার মধ্যে)।"
               : `পরীক্ষা শুরু হবে ${formattedStartDate} তারিখে।`}
+          </h2>
+        ) : (
+          <h2 className="text-center text-base font-medium text-gray-800 dark:text-gray-200 border border-gray-300 p-3 mb-6 rounded-md bg-gray-50 dark:bg-gray-700">
+            {errorMsg || "📄 No Exam Available Now"}
           </h2>
         )}
 
@@ -132,11 +134,11 @@ export default function Page() {
         )}
 
         {/* Error / No Exam */}
-        {!loading && (errorMsg || !exam) && (
-          <div className="text-center py-10 text-gray-600 dark:text-gray-300 text-lg">
+        {/* {!loading && (errorMsg || !exam) && (
+          <div className="text-center text-base font-medium text-gray-800 dark:text-gray-200 border border-gray-300 p-3 mb-6 rounded-md bg-gray-50 dark:bg-gray-700">
             {errorMsg || "📄 No Exam Available Now"}
           </div>
-        )}
+        )} */}
 
         {/* Exam Data Loaded */}
         {!loading && (

@@ -39,8 +39,6 @@ export default function Page() {
     if (classParam && subject) fetchRoutines();
   }, [classParam, subject]);
 
-  console.log(routines);
-
   return (
     <div className="min-h-screen flex flex-col justify-between">
       <div className="w-full py-10 px-4">

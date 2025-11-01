@@ -37,14 +37,11 @@ export default function ExamPage() {
         );
         const data = res || {};
 
-        console.log(data);
         // ✅ Check if already submitted / time over
         if (!data.data.exam) {
           setErrorMsg(data.message || "Cannot start exam.");
           return;
         }
-
-        console.log(data.data);
 
         setExam(data.data.exam);
         setExamSheet(data.data.answerSheet || []);

@@ -20,12 +20,10 @@ export function useSocket(serverUrl) {
       });
 
       socket.on("connect", () => {
-        console.log("⚡ Socket connected:", socket.id);
         setConnected(true);
       });
 
       socket.on("disconnect", () => {
-        console.log("🔌 Socket disconnected");
         setConnected(false);
       });
     }

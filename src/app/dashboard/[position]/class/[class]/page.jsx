@@ -26,7 +26,6 @@ export default function Page() {
           `/student/exam/examoption/get/${positionParam}/${classId}`
         );
 
-        console.log(res);
         if (res?.data) {
           setClassInfo(res.data.classInfo);
           setSubjects(res.data.subjects);

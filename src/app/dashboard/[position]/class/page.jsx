@@ -24,7 +24,6 @@ export default function Page() {
           `/student/exam/examoption/get/${positionParam}`
         );
 
-        console.log(data);
         if (data.data) {
           setOptions(data.data);
         }
