@@ -1,8 +1,11 @@
 "use client";
 import BottomBar from "@/_components/cart/BottomBar";
+import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 export default function page() {
+  const { id } = useParams();
+
   return (
     <div>
       <div className="min-h-screen">
