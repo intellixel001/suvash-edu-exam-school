@@ -90,7 +90,12 @@ export default function Page() {
   ]);
 
   const handleCardClick = (link) => {
-    router.push(`${currentPathName}${link}`, { scroll: true });
+    console.log(link);
+    if (link === "/merit") {
+      router.push(`/dashboard/merit/${exam?._id}`, { scroll: true });
+    } else {
+      router.push(`${currentPathName}${link}`, { scroll: true });
+    }
   };
 
   // 👉 Calculate whether exam is active within 24h window
