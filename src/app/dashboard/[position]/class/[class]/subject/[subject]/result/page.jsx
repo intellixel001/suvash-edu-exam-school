@@ -8,7 +8,10 @@ export default function Page() {
   const [examList, setExamList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-
+  const [header, setHeader] = useState({
+    o: "",
+    s: "",
+  });
   const searchParams = useParams();
   const router = useRouter();
 
@@ -25,6 +28,10 @@ export default function Page() {
           `/student/exam/get-result-list/${position}/${classParam}/${subject}`
         );
         setExamList(response?.results || []);
+        setHeader({
+          o: response?.header?.o || "",
+          s: response?.header?.s || "",
+        });
       } catch (err) {
         const message =
           err.response?.message ||
@@ -47,8 +54,8 @@ export default function Page() {
 
   return (
     <div className="min-h-screen p-4">
-      <h2 className="text-center text-xl font-semibold text-gray-800 dark:text-gray-200 border border-gray-400 p-4 mb-6 rounded-md bg-gray-50 dark:bg-gray-700">
-        Result List
+      <h2 className="text-center text-xl font-semibold text-gray-800 dark:text-gray-200 border border-gray-400 p-4 mb-4 rounded-md bg-gray-50 dark:bg-gray-700">
+        {header?.o} এর {header?.s} result
       </h2>
 
       {loading && <p className="text-center">Loading...</p>}
