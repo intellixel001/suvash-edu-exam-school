@@ -90,7 +90,6 @@ export default function Page() {
   ]);
 
   const handleCardClick = (link) => {
-    console.log(link);
     if (link === "/merit") {
       router.push(`/dashboard/merit/${exam?._id}`, { scroll: true });
     } else {

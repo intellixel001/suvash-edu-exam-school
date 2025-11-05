@@ -1,23 +1,40 @@
 "use client";
-import BottomBar from "@/_components/cart/BottomBar";
-import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import apiClient from "@/api/apiClient";
+import BottomBar from "@/_components/cart/BottomBar";
 
-export default function Page() {
+export default function MeritListPage() {
   const { id } = useParams();
   const [meritList, setMeritList] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
-    // Fake Merit List (Replace later with API call)
-    const fakeData = [
-      { rank: 1, name: "Abdullah Al Mamun", score: 48, time: "23m 12s" },
-      { rank: 2, name: "Mim Akter", score: 46, time: "25m 40s" },
-      { rank: 3, name: "Jubayer Rahman", score: 45, time: "26m 10s" },
-      { rank: 4, name: "Imran Hossain", score: 44, time: "28m 03s" },
-      { rank: 5, name: "Tania Sultana", score: 43, time: "29m 55s" },
-    ];
+    const fetchMeritList = async () => {
+      try {
+        setLoading(true);
+        setErrorMsg("");
 
-    setMeritList(fakeData);
+        const res = await apiClient.get(`/student/exam/get-merit-list/${id}`);
+        const data = res?.data?.meritList || [];
+
+        if (!data.length) {
+          setErrorMsg("No merit list available for this exam.");
+          setMeritList([]);
+          return;
+        }
+
+        setMeritList(data);
+      } catch (err) {
+        const message = err?.response?.data?.message || "Something went wrong.";
+        setErrorMsg(message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (id) fetchMeritList();
   }, [id]);
 
   return (
@@ -26,34 +43,47 @@ export default function Page() {
         Open_Model_Test এর গত মডেল টেস্টের মেধাতালিকা
       </h2>
 
-      {/* Merit List Table */}
-      <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-4">
-        <table className="w-full text-left">
-          <thead>
-            <tr className="border-b dark:border-gray-600">
-              <th className="py-2">Rank</th>
-              <th className="py-2">Name</th>
-              <th className="py-2">Score</th>
-              <th className="py-2">Time</th>
-            </tr>
-          </thead>
-          <tbody>
-            {meritList.map((item, i) => (
-              <tr
-                key={i}
-                className="border-b dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                <td className="py-2 font-semibold">{item.rank}</td>
-                <td className="py-2">{item.name}</td>
-                <td className="py-2">{item.score}</td>
-                <td className="py-2 text-sm text-gray-600 dark:text-gray-300">
-                  {item.time}
-                </td>
+      {loading ? (
+        <p className="text-center text-gray-500 dark:text-gray-300">
+          Loading...
+        </p>
+      ) : errorMsg ? (
+        <p className="text-center text-red-500">{errorMsg}</p>
+      ) : (
+        <div className="bg-white dark:bg-gray-800 shadow-md text-black rounded-lg p-4 overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="border-b dark:border-gray-600 bg-gray-100 dark:bg-gray-700">
+                <th className="py-2 px-2">Rank</th>
+                <th className="py-2 px-2">Student ID</th>
+                <th className="py-2 px-2">Score</th>
+                <th className="py-2 px-2">Topics Attempted</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {meritList.map((item, i) => (
+                <tr
+                  key={i}
+                  className={`border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 ${
+                    i === 0
+                      ? "bg-yellow-100 dark:bg-yellow-900 font-semibold"
+                      : i % 2 === 0
+                      ? "bg-gray-50 dark:bg-gray-800"
+                      : ""
+                  }`}
+                >
+                  <td className="py-2 px-2">{item.rank}</td>
+                  <td className="py-2 px-2">{item.studentName}</td>
+                  <td className="py-2 px-2 font-bold">{item.totalMark}</td>
+                  <td className="py-2 px-2">
+                    {item.resultSheet?.map((t) => t.topic).join(", ")}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
 
       <BottomBar />
     </div>
