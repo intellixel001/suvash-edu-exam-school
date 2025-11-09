@@ -4,6 +4,7 @@ import { useParams } from "next/navigation";
 import apiClient from "@/api/apiClient";
 import QuestionCard from "../QuestionCard";
 import BottomBar from "@/_components/cart/BottomBar";
+import { useWishlist } from "@/content/WishlistContext";
 
 export default function AnswerSheetPage() {
   const { examid } = useParams();
@@ -15,6 +16,8 @@ export default function AnswerSheetPage() {
   const [selectedTopic, setSelectedTopic] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState("");
+  const { addWishlist, deleteWishlist, isWishlisted, setWishlist } =
+    useWishlist();
 
   useEffect(() => {
     const fetchExam = async () => {
@@ -53,6 +56,39 @@ export default function AnswerSheetPage() {
     };
 
     if (examid) fetchExam();
+  }, [examid]);
+
+  useEffect(() => {
+    const fetchWishlist = async () => {
+      try {
+        setLoading(true);
+        setErrorMsg("");
+
+        const res = await apiClient.get(
+          `/student/wishlist/get/question/${examid}`
+        );
+        const data = res.data;
+        console.log(data);
+
+        if (!data || data?.length === 0) {
+          console.log(res);
+          setErrorMsg(res.message || "");
+          return;
+        }
+
+        setWishlist(data.data || null);
+      } catch (err) {
+        const msg =
+          err?.response?.data?.message ||
+          err?.response?.data?.error ||
+          "Something went wrong!";
+        setErrorMsg(msg);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (examid) fetchWishlist();
   }, [examid]);
 
   const filteredQuestions =
@@ -113,6 +149,7 @@ export default function AnswerSheetPage() {
               key={q._id}
               question={q}
               index={index}
+              examid={examid}
               onViewExplanation={() => handleOpenModal(q.explanation)}
             />
           ))

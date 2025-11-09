@@ -1,16 +1,47 @@
 "use client";
+import { useWishlist } from "@/content/WishlistContext";
 import React from "react";
-import { FaCheckCircle } from "react-icons/fa";
+import { FaCheckCircle, FaHeart, FaRegHeart } from "react-icons/fa";
 
-export default function QuestionCard({ question, index, onViewExplanation }) {
+export default function QuestionCard({
+  question,
+  index,
+  onViewExplanation,
+  examid,
+}) {
   const options = question?.fields || [];
 
+  const { addWishlist, deleteWishlist, isWishlisted } = useWishlist();
+  const isSaved = isWishlisted(question._id); // ✅ Correct way
+
+  const handleWishlist = () => {
+    if (isSaved) {
+      deleteWishlist(question._id, "question");
+    } else {
+      addWishlist(question, examid);
+    }
+  };
+
   return (
-    <div className="border dark:border-gray-700 rounded-2xl p-5 my-4 bg-white dark:bg-gray-900 shadow-md hover:shadow-lg transition-shadow duration-200">
-      <h2 className="font-semibold text-lg mb-4 text-gray-800 dark:text-gray-100">
+    <div className="border dark:border-gray-700 rounded-2xl p-5 my-4 bg-white dark:bg-gray-900 shadow-md hover:shadow-lg transition-shadow duration-200 relative">
+      {/* ❤️ Wishlist Button - Top Right */}
+      <button
+        onClick={handleWishlist}
+        className="absolute top-3 right-3 text-xl"
+      >
+        {isSaved ? (
+          <FaHeart className="text-red-500 hover:text-red-600 transition" />
+        ) : (
+          <FaRegHeart className="text-gray-400 hover:text-red-500 transition" />
+        )}
+      </button>
+
+      {/* Question Title */}
+      <h2 className="font-semibold text-lg mb-4 text-gray-800 dark:text-gray-100 pr-8">
         Q{index + 1}: {question.body}
       </h2>
 
+      {/* Options List */}
       <div className="flex flex-col gap-3">
         {options.map((opt, i) => {
           const isSelected = question.myanswer === i + 1;
@@ -52,7 +83,7 @@ export default function QuestionCard({ question, index, onViewExplanation }) {
       {/* Explanation Button */}
       {question.explanation && (
         <button
-          onClick={onViewExplanation}
+          onClick={() => onViewExplanation(question)}
           className="mt-3 bg-blue-600 hover:bg-blue-700 dark:bg-blue-900 dark:hover:bg-blue-600 text-white py-2 px-4 rounded-md text-sm font-medium"
         >
           View Explanation

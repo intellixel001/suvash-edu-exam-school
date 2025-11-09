@@ -6,11 +6,14 @@ import BigInfoCard from "@/_components/cart/BigInfoCart";
 import BottomBar from "@/_components/cart/BottomBar";
 import ButtonCart from "@/_components/cart/ButtonCart";
 import apiClient from "@/api/apiClient";
+import { useWishlist } from "@/content/WishlistContext";
 
 export default function Page() {
   const router = useRouter();
   const currentPathName = usePathname();
   const searchParams = useParams();
+  const { addWishlist, deleteWishlist, isWishlisted, setWishlist } =
+    useWishlist();
 
   const classParam = searchParams?.class || "";
   const subject = searchParams?.subject || "";
@@ -43,6 +46,39 @@ export default function Page() {
 
     if (classParam && subject) fetchExam();
   }, [classParam, subject]);
+
+  useEffect(() => {
+    const fetchWishlist = async () => {
+      try {
+        setLoading(true);
+        setErrorMsg("");
+
+        const res = await apiClient.get(
+          `/student/wishlist/get/question/${exam?._id}`
+        );
+        const data = res.data;
+        console.log(data);
+
+        if (!data || data?.length === 0) {
+          console.log(res);
+          setErrorMsg(res.message || "");
+          return;
+        }
+
+        setWishlist(data.data || null);
+      } catch (err) {
+        const msg =
+          err?.response?.data?.message ||
+          err?.response?.data?.error ||
+          "Something went wrong!";
+        setErrorMsg(msg);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (exam?._id) fetchWishlist();
+  }, [exam?._id]);
 
   const [cardData] = useState([
     {
@@ -92,6 +128,8 @@ export default function Page() {
   const handleCardClick = (link) => {
     if (link === "/merit") {
       router.push(`/dashboard/merit/${exam?._id}`, { scroll: true });
+    } else if (link === "/favorite") {
+      router.push(`/dashboard/favorite/${exam?._id}`, { scroll: true });
     } else {
       router.push(`${currentPathName}${link}`, { scroll: true });
     }
