@@ -29,12 +29,12 @@ export function useSocket(serverUrl) {
     }
 
     // Cleanup on unmount
-    return () => {
-      if (socket) {
-        socket.off("connect");
-        socket.off("disconnect");
-      }
-    };
+    // return () => {
+    //   if (socket) {
+    //     socket.off("connect");
+    //     socket.off("disconnect");
+    //   }
+    // };
   }, [serverUrl]);
 
   // Global socket instance
