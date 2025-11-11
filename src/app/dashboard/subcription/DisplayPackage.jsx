@@ -90,7 +90,7 @@ export default function DisplayPackage({
 
               <div className="text-sm text-gray-600 mt-2">
                 <p className="text-gray-700">
-                  You can access
+                  You can access{" "}
                   {[
                     pkg.position,
                     pkg.classId ? `${pkg.classId}` : null,

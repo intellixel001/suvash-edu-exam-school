@@ -101,7 +101,7 @@ export default function Page() {
   console.log(uniqueClasses);
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto px-2">
       <FilterBar
         filterPosition={filterPosition}
         setFilterPosition={setFilterPosition}

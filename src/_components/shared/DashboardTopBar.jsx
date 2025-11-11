@@ -35,8 +35,7 @@ export default function DashboardTopBar({ set_slider_toggle_bar }) {
             href=""
             className="flex items-center gap-2 text-2xl font-bold text-blue-600 dark:text-blue-400 hover:scale-105 transition-transform duration-200"
           >
-            <FaGraduationCap className="text-3xl" />
-            <span>EduLearn</span>
+            <img className="w-full max-w-[80px]" src="/logo.png" alt="" />
           </Link>
         </div>
 

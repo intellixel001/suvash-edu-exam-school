@@ -57,7 +57,7 @@ export default function Page() {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="p-2">
       <div className="w-full py-6">
         {/* Header */}
         <h2 className="text-center text-xl font-semibold text-gray-800 dark:text-gray-200 border border-gray-400 py-3 mb-6 rounded-md bg-gray-50 dark:bg-gray-700">

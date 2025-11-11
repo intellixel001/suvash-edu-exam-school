@@ -18,13 +18,40 @@ export default function Sidebar({ slider_toggle_bar, set_slider_toggle_bar }) {
   const [isDark, setIsDark] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  // Load dark mode from localStorage
+  // 🌓 Initialize theme from localStorage or system preference
   useEffect(() => {
-    const darkMode = localStorage.getItem("theme") === "dark";
-    setIsDark(darkMode);
-    document.documentElement.classList.toggle("dark", darkMode);
+    const storedTheme = localStorage.getItem("theme");
+
+    if (storedTheme) {
+      // Use stored preference
+      const isDarkMode = storedTheme === "dark";
+      setIsDark(isDarkMode);
+      document.documentElement.classList.toggle("dark", isDarkMode);
+    } else {
+      // Use system preference by default
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+      setIsDark(prefersDark);
+      document.documentElement.classList.toggle("dark", prefersDark);
+    }
   }, []);
 
+  // 🌗 Listen for system theme changes (optional)
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const handleChange = (e) => {
+      // Only auto-switch if user has no stored preference
+      if (!localStorage.getItem("theme")) {
+        setIsDark(e.matches);
+        document.documentElement.classList.toggle("dark", e.matches);
+      }
+    };
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
+
+  // 🌙 Toggle theme and persist preference
   const toggleTheme = () => {
     const newTheme = !isDark;
     setIsDark(newTheme);
@@ -45,16 +72,17 @@ export default function Sidebar({ slider_toggle_bar, set_slider_toggle_bar }) {
       link: "/dashboard/package",
     },
     { icon: <FaClipboardList />, label: "Exam", link: "/" },
+    { icon: <FaClipboardList />, label: "Logout", link: "/logout" },
   ];
 
   return (
     <>
+      {/* Overlay + Sidebar for large screens */}
       {slider_toggle_bar && (
         <div
           onClick={() => set_slider_toggle_bar(false)}
           className="fixed top-0 left-0 z-[99999] w-full bg-black/20"
         >
-          {/* Sidebar for large screens */}
           <div
             style={{
               boxShadow: "20px 0px 40px 5px gray",
@@ -69,11 +97,12 @@ export default function Sidebar({ slider_toggle_bar, set_slider_toggle_bar }) {
                 className="cursor-pointer"
               />
             </div>
+
             {/* Top: User Info */}
             <div>
               <div className="flex flex-col items-center">
                 <img
-                  src="https://static.vecteezy.com/system/resources/previews/003/715/527/large_2x/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-vector.jpg"
+                  src="https:///large_2x/ gn-and-symbol-vector.jpg"
                   alt="User"
                   width={80}
                   height={80}
@@ -85,7 +114,7 @@ export default function Sidebar({ slider_toggle_bar, set_slider_toggle_bar }) {
               {/* Menu */}
               <div className="mt-10 space-y-3">
                 {menuItems.map((item, idx) => (
-                  <Link key={idx} href={item?.link}>
+                  <Link key={idx} href={item.link}>
                     <button
                       onClick={() => set_slider_toggle_bar(false)}
                       className="flex items-center gap-3 w-full py-2 px-3 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 transition"
@@ -98,7 +127,7 @@ export default function Sidebar({ slider_toggle_bar, set_slider_toggle_bar }) {
               </div>
             </div>
 
-            {/* Bottom: Theme toggle */}
+            {/* Theme toggle */}
             <button
               onClick={toggleTheme}
               className="flex items-center gap-3 justify-center py-2 px-4 rounded-lg bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition"
@@ -110,7 +139,7 @@ export default function Sidebar({ slider_toggle_bar, set_slider_toggle_bar }) {
         </div>
       )}
 
-      {/* Bottom bar for small screens */}
+      {/* Mobile bottom bar */}
       <div className="fixed bottom-0 left-0 w-full md:hidden bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex justify-around py-3 shadow-inner">
         <button className="flex flex-col items-center">
           <FaHome className="text-xl" />
@@ -129,7 +158,7 @@ export default function Sidebar({ slider_toggle_bar, set_slider_toggle_bar }) {
         </button>
       </div>
 
-      {/* Slide-out sidebar for small screen */}
+      {/* Mobile slide-out menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -155,6 +184,7 @@ export default function Sidebar({ slider_toggle_bar, set_slider_toggle_bar }) {
                   className="cursor-pointer"
                 />
               </div>
+
               <div className="flex flex-col items-center">
                 <img
                   src="https://static.vecteezy.com/system/resources/previews/003/715/527/large_2x/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-vector.jpg"
@@ -168,13 +198,14 @@ export default function Sidebar({ slider_toggle_bar, set_slider_toggle_bar }) {
 
               <div className="mt-10 space-y-3">
                 {menuItems.map((item, idx) => (
-                  <button
+                  <Link
+                    href={item.link}
                     key={idx}
                     className="flex items-center gap-3 w-full py-2 px-3 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 transition"
                   >
                     <span className="text-xl">{item.icon}</span>
                     <span className="font-medium">{item.label}</span>
-                  </button>
+                  </Link>
                 ))}
               </div>
 

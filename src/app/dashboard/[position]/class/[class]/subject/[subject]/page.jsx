@@ -152,8 +152,8 @@ export default function Page() {
     : null;
 
   return (
-    <div className="min-h-screen">
-      <div className="w-full py-6">
+    <div className="p-2">
+      <div className="w-full py-3">
         {/* ✅ Top Info Text */}
         {new Date(exam?.startDate).getTime() + +24 * 60 * 60 * 1000 >
         Date.now() ? (
@@ -200,7 +200,7 @@ export default function Page() {
               </div>
             )}
 
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
               {cardData.map((item, i) => (
                 <BigInfoCard
                   key={i}

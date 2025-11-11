@@ -20,7 +20,7 @@ export default function BigInfoCard({
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: "easeOut" }}
-      className="w-full h-full min-h-[200px] flex items-center justify-center rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl 
+      className="w-full h-auto flex relative items-center justify-center rounded-[10px] overflow-hidden shadow-xl hover:shadow-2xl 
            bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 
            transition-all duration-300 transform hover:-translate-y-2"
     >
@@ -65,18 +65,25 @@ export default function BigInfoCard({
                 {description}
               </p>
             )}
-
-            {extraInfo && (
-              <div className="bg-gray-100 dark:bg-gray-800 p-3 rounded-xl text-sm text-gray-700 dark:text-gray-300">
-                {extraInfo}
-              </div>
-            )}
           </div>
         ) : !image ? (
           <div className="w-full p-10 text-center text-gray-500 dark:text-gray-400">
             <p>No information available</p>
           </div>
         ) : null}
+
+        {extraInfo && (
+          <div
+            className="absolute top-[-1] left-[-1] px-3 py-1 rounded-[6px] text-[8px] font-medium 
+             text-white bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 
+             shadow-lg animate-pulse"
+            style={{
+              animationIterationCount: "infinite",
+            }}
+          >
+            {extraInfo}
+          </div>
+        )}
       </div>
     </motion.div>
   );

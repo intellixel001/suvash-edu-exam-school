@@ -12,7 +12,7 @@ export default function FilterBar({
   uniqueSubjects,
 }) {
   return (
-    <div className="p-4 rounded-xl shadow-md mb-4">
+    <div className="p-2 rounded-xl shadow-md mb-4">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         {/* Position Filter */}
         <select

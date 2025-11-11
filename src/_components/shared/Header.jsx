@@ -47,41 +47,17 @@ export default function Header() {
               href="/"
               className="flex items-center gap-2 text-2xl font-bold text-blue-600 dark:text-blue-400 hover:scale-105 transition-transform duration-200"
             >
-              <FaGraduationCap className="text-3xl" />
-              <span>EduLearn</span>
+              <img className="w-full max-w-[100px]" src="/logo.png" alt="" />
             </Link>
 
-            {/* Desktop Menu */}
-            <nav className="hidden md:flex items-center gap-6 text-gray-700 dark:text-gray-200 font-medium">
+            {/* Right Actions */}
+            <div className="flex items-center justify-end gap-10">
               <Link
-                href="/"
-                className="flex items-center gap-1 hover:text-blue-500 transition"
-              >
-                <FaHome /> Home
-              </Link>
-              <Link
-                href="/exam"
-                className="flex items-center gap-1 hover:text-blue-500 transition"
+                href="/#exam"
+                className="flex items-center text-[#392f39] dark:text-white gap-1 hover:text-blue-500 transition"
               >
                 <FaUserGraduate /> Exam
               </Link>
-
-              <Link
-                href="/about"
-                className="flex items-center gap-1 hover:text-blue-500 transition"
-              >
-                <FaInfoCircle /> About
-              </Link>
-              <Link
-                href="/contact"
-                className="flex items-center gap-1 hover:text-blue-500 transition"
-              >
-                <FaEnvelope /> Contact
-              </Link>
-            </nav>
-
-            {/* Right Actions */}
-            <div className="flex items-center justify-end gap-4">
               {/* Dark Mode Toggle */}
               <button
                 onClick={() => setDarkMode(!darkMode)}
@@ -97,13 +73,13 @@ export default function Header() {
               {/* Auth Buttons */}
               <Link
                 href="/login"
-                className="px-4 py-2 hidden lg:block rounded-full border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white transition shadow-sm"
+                className="px-4 py-2 hidden lg:block rounded-full border border-[#392f39] dark:border-white text-[#392f39] dark:text-white hover:bg-blue-600 hover:text-white transition shadow-sm"
               >
                 Login
               </Link>
               <Link
                 href="/signup"
-                className="px-4 py-2 hidden lg:block rounded-full bg-blue-600 text-white hover:bg-blue-700 transition shadow-sm"
+                className="px-4 py-2 hidden lg:block rounded-full bg-[#392f39] text-white hover:bg-blue-700 transition shadow-sm"
               >
                 Sign Up
               </Link>
