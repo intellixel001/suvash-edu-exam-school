@@ -69,8 +69,6 @@ export default function AnswerSheetPage() {
         );
         const data = res.data;
 
-        console.log({ data });
-
         if (!data || data?.length === 0) {
           setErrorMsg(res.message || "");
           return;

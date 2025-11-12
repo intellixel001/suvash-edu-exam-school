@@ -48,7 +48,6 @@ export function WishlistProvider({ children }) {
 
   // 📌 Check if item exists
   const isWishlisted = (id) => {
-    console.log(wishlist);
     return [...(wishlist || [])].some((item) => item?.data?.questionId === id);
   };
 
