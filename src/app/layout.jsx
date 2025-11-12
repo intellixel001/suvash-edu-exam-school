@@ -1,10 +1,9 @@
 import "./globals.css";
 import Header from "@/_components/shared/Header";
-import ClientProvider from "./_provider/ClientProvider";
-import { WishlistProvider } from "@/content/WishlistContext";
 import { Hind_Siliguri, Anton, Poppins } from "next/font/google";
+import ClientOnlyProviders from "./_provider/ClientOnlyProviders";
 
-// ✅ Load Google Fonts
+// Fonts
 const hindSiliguri = Hind_Siliguri({
   subsets: ["bengali", "latin"],
   weight: ["400", "500", "600", "700"],
@@ -34,14 +33,12 @@ export default function RootLayout({ children }) {
       lang="bn"
       className={`${hindSiliguri.variable} ${anton.variable} ${poppins.variable}`}
     >
-      <body className={`antialiased font-sans`}>
+      <body className="antialiased font-sans">
         <div className="bg-[#e1dfd6] min-h-screen dark:bg-slate-950">
-          <WishlistProvider>
-            <ClientProvider>
-              <Header />
-              {children}
-            </ClientProvider>
-          </WishlistProvider>
+          <ClientOnlyProviders>
+            <Header />
+            {children}
+          </ClientOnlyProviders>
         </div>
       </body>
     </html>

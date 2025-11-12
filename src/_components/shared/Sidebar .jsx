@@ -13,10 +13,12 @@ import {
 import { CgProfile } from "react-icons/cg";
 import { LuPackage2 } from "react-icons/lu";
 import Link from "next/link";
+import { useUser } from "@/content/UserContext";
 
 export default function Sidebar({ slider_toggle_bar, set_slider_toggle_bar }) {
   const [isDark, setIsDark] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const { user, loading, error } = useUser();
 
   // 🌓 Initialize theme from localStorage or system preference
   useEffect(() => {
@@ -108,7 +110,9 @@ export default function Sidebar({ slider_toggle_bar, set_slider_toggle_bar }) {
                   height={80}
                   className="rounded-full border-2 border-gray-300 dark:border-gray-700"
                 />
-                <h2 className="mt-3 text-lg font-semibold">John Doe</h2>
+                <h2 className="mt-3 text-lg font-semibold">
+                  {user?.fullName || "User"}
+                </h2>
               </div>
 
               {/* Menu */}
@@ -193,7 +197,9 @@ export default function Sidebar({ slider_toggle_bar, set_slider_toggle_bar }) {
                   height={80}
                   className="rounded-full border-2 border-gray-300 dark:border-gray-700"
                 />
-                <h2 className="mt-3 text-lg font-semibold">John Doe</h2>
+                <h2 className="mt-3 text-lg font-semibold">
+                  {user?.fullName || "User"}
+                </h2>
               </div>
 
               <div className="mt-10 space-y-3">
