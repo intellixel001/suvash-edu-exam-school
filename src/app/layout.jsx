@@ -9,23 +9,18 @@ const hindSiliguri = Hind_Siliguri({
   weight: ["400", "500", "600", "700"],
   variable: "--font-hind-siliguri",
 });
-
 const anton = Anton({
   subsets: ["latin"],
   weight: ["400"],
   variable: "--font-anton",
 });
-
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
   variable: "--font-poppins",
 });
 
-export const metadata = {
-  title: "Suvash Edu",
-  description: "Exam app",
-};
+export const metadata = { title: "Suvash Edu", description: "Exam app" };
 
 export default function RootLayout({ children }) {
   return (
