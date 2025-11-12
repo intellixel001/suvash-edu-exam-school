@@ -68,10 +68,10 @@ export default function AnswerSheetPage() {
           `/student/wishlist/get/question/${examid}`
         );
         const data = res.data;
-        console.log(data);
+
+        console.log({ data });
 
         if (!data || data?.length === 0) {
-          console.log(res);
           setErrorMsg(res.message || "");
           return;
         }

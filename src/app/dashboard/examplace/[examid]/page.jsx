@@ -186,8 +186,6 @@ export default function ExamPage() {
       </div>
     );
 
-  console.log({ connected });
-
   if (!connected)
     return (
       <div className="fixed inset-0 flex flex-col items-center justify-center bg-gray-100/80 backdrop-blur-sm z-50">

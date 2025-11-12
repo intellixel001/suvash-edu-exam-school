@@ -109,8 +109,6 @@ export default function Page() {
                     View Exam
                   </button>
 
-                  {console.log(item)}
-
                   <button
                     onClick={() => handleNavigateQuestion(item._id)}
                     className="mt-4 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition"

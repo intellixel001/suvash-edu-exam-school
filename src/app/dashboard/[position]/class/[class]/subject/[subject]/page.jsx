@@ -57,10 +57,9 @@ export default function Page() {
           `/student/wishlist/get/question/${exam?._id}`
         );
         const data = res.data;
-        console.log(data);
+        console.log({ data });
 
         if (!data || data?.length === 0) {
-          console.log(res);
           setErrorMsg(res.message || "");
           return;
         }

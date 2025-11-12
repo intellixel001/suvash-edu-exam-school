@@ -13,7 +13,7 @@ export function WishlistProvider({ children }) {
       const res = await apiClient.post("/student/wishlist/add", {
         parentId,
         type: "question",
-        id: item.id,
+        id: item.questionId,
       });
 
       setWishlist((prev) => [...(prev || []), item]);
@@ -48,8 +48,8 @@ export function WishlistProvider({ children }) {
 
   // 📌 Check if item exists
   const isWishlisted = (id) => {
-    console.log({ wishlist });
-    return [...(wishlist || [])].some((item) => item.id === id);
+    console.log(wishlist);
+    return [...(wishlist || [])].some((item) => item?.data?.questionId === id);
   };
 
   return (

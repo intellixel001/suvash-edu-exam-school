@@ -36,8 +36,6 @@ export default function ResultPage() {
           `/student/exam/get-single-archive-result/${id}`
         );
 
-        console.log(res?.data);
-
         setExamData(res?.data); // use the data directly
         setExamData2(res);
       } catch (err) {

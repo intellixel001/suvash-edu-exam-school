@@ -12,11 +12,11 @@ export default function QuestionCard({
   const options = question?.fields || [];
 
   const { addWishlist, deleteWishlist, isWishlisted } = useWishlist();
-  const isSaved = isWishlisted(question._id); // ✅ Correct way
+  const isSaved = isWishlisted(question.questionId); // ✅ Correct way
 
   const handleWishlist = () => {
     if (isSaved) {
-      deleteWishlist(question._id, "question");
+      deleteWishlist(question.questionId, "question");
     } else {
       addWishlist(question, examid);
     }

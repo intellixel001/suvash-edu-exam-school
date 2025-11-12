@@ -67,11 +67,8 @@ export default function Page() {
   const filteredForDropdown = useMemo(() => {
     let temp = [...allData];
 
-    console.log(temp);
-
     if (filterPosition)
       temp = temp.filter((d) => {
-        console.log(d.position, filterPosition);
         return d.position?.toLowerCase() === filterPosition?.toLowerCase();
       });
 
@@ -84,7 +81,6 @@ export default function Page() {
   }, [allData, filterPosition, filterClass]);
 
   const uniqueClasses = useMemo(() => {
-    console.log({ filterPosition, filteredForDropdown });
     if (!filterPosition) return [];
     return [...new Set(filteredForDropdown.map((t) => t?.className))].filter(
       Boolean
@@ -97,8 +93,6 @@ export default function Page() {
       Boolean
     );
   }, [filteredForDropdown, filterPosition, filterClass]);
-
-  console.log(uniqueClasses);
 
   return (
     <div className="container mx-auto px-2">
