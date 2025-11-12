@@ -59,6 +59,10 @@ export default function Page() {
     router.push(`/dashboard/archiveexamplace/${examId}`);
   };
 
+  const handleNavigateQuestion = (examId) => {
+    router.push(`/dashboard/answersheet/${examId}`);
+  };
+
   return (
     <div className="min-h-screen flex flex-col justify-between">
       <div className="w-full py-10 px-4">
@@ -96,13 +100,24 @@ export default function Page() {
                 <p className="text-sm mt-1">{item.description}</p>
                 <p className="text-sm mt-2">ধরন: {item.type.toUpperCase()}</p>
 
-                {/* ✅ View Exam Button */}
-                <button
-                  onClick={() => handleNavigate(item._id)}
-                  className="mt-4 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition"
-                >
-                  View Exam
-                </button>
+                <div className="flex items-center justify-center gap-4">
+                  {/* ✅ View Exam Button */}
+                  <button
+                    onClick={() => handleNavigate(item._id)}
+                    className="mt-4 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition"
+                  >
+                    View Exam
+                  </button>
+
+                  {console.log(item)}
+
+                  <button
+                    onClick={() => handleNavigateQuestion(item._id)}
+                    className="mt-4 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition"
+                  >
+                    View Question
+                  </button>
+                </div>
               </div>
             </motion.div>
           ))}

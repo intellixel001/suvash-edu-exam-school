@@ -73,11 +73,17 @@ export default function Page() {
           >
             <h3 className="font-semibold text-black text-lg">
               {item.examName}
+              {" - "}
+              <span className="italic text-gray-600 text-[12px]">
+                {item?.from || ""}
+              </span>
             </h3>
-            <p className="text-sm text-gray-600">
-              Start: {formatDate(item.start)} <br />
-              Result Publish: {formatDate(item.showResultAt)}
-            </p>
+            {item.status !== "result_available" && (
+              <p className="text-sm text-gray-600">
+                Start: {formatDate(item.start)} <br />
+                Result Publish: {formatDate(item.showResultAt)}
+              </p>
+            )}
 
             <div className="mt-2">
               {item.status === "exam_not_started" && (

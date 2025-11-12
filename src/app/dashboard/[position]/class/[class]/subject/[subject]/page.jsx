@@ -159,8 +159,8 @@ export default function Page() {
         Date.now() ? (
           <h2 className="text-center text-base font-medium text-gray-800 dark:text-gray-200 border border-gray-300 p-3 mb-6 rounded-md bg-gray-50 dark:bg-gray-700">
             {canEnterExam
-              ? "আপনি এখন পরীক্ষায় অংশগ্রহণ করতে পারবেন (পরবর্তী ২৪ ঘন্টার মধ্যে)।"
-              : `পরীক্ষা শুরু হবে ${formattedStartDate} তারিখে।`}
+              ? `${exam?.name} - আপনি এখন পরীক্ষায় অংশগ্রহণ করতে পারবেন (পরবর্তী ২৪ ঘন্টার মধ্যে)।`
+              : `${exam?.name} - পরীক্ষা শুরু হবে ${formattedStartDate} তারিখে।`}
           </h2>
         ) : (
           <h2 className="text-center text-base font-medium text-gray-800 dark:text-gray-200 border border-gray-300 p-3 mb-6 rounded-md bg-gray-50 dark:bg-gray-700">

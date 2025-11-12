@@ -1,5 +1,5 @@
 "use client";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import apiClient from "@/api/apiClient";
 import QuestionCard from "../QuestionCard";
@@ -18,6 +18,7 @@ export default function ExamPage() {
   const [timeLeft, setTimeLeft] = useState(0);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const router = useRouter();
 
   // ---------------------------
   // Fetch exam + questions + topics
@@ -148,8 +149,11 @@ export default function ExamPage() {
 
       if (res.data) {
         setSubmitted(true);
+        router.push("/dashboard/archiveresult/" + res.data?._id, {
+          scroll: true,
+        });
         alert("✅ Exam submitted successfully!");
-        window.history.back();
+        // window.history.back();
       } else {
         alert("⚠️ Submission failed. " + (res.data.message || ""));
       }
